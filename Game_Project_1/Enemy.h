@@ -12,12 +12,6 @@ public:
         : x(x), y(y), health(health) {
     }
 
-    // 적 이동 함수
-    void move(int newX, int newY) {
-        x = newX;
-        y = newY;
-    }
-
     // 총알 발사 함수
     void shoot(Bullet bulletType);
 
