@@ -11,11 +11,14 @@ void User::move(int dx, int dy) {
     y += dy;
 
     // 화면 밖으로 나가지 않도록 제한
-    if (x < 0) x = 0;
-    if (x >= WIDTH) x = WIDTH - 1;
-    if (y < 0) y = 0;
+    if (x < 1) x = 1;
+    if (x >= WIDTH-1) x = WIDTH-2 ;
+
+    // 높이의 절반 이하로 이동 불가능하도록 제한
+    if (y < HEIGHT / 2) y = HEIGHT / 2;
     if (y >= HEIGHT) y = HEIGHT - 1;
 }
+
 
 void User::shoot() {
     InGameBullet.push_back(Bullet(x, y - 1, 0));  // 유저가 총알 발사 (위쪽으로)
