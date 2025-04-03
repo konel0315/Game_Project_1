@@ -3,19 +3,21 @@
 
 #include <vector>
 #include "Bullet.h"
+#include "Enemy.h"
 
 const int WIDTH = 30;
 const int HEIGHT = 30;
 
 // 화면을 int 배열로 정의
 extern int screen[HEIGHT][WIDTH];
-extern std::vector<Bullet> InGameBullet;
+extern vector<Bullet> InGameBullet;
+extern vector<Enemy> enemies;  // 적 리스트
+
 
 void clearScreen();
 void drawUser(int x, int y);
-void drawEnemy(int x, int y);
-void moveBullet(std::vector<Bullet>& InGameBullet, bool isUserBullet);
+void drawEnemy(int i);
 void printScreen();
-
+void moveBullet(vector<Bullet>& InGameBullet, vector<Enemy>& enemies);
 
 #endif // SCREEN_H
