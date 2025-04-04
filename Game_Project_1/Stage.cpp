@@ -21,22 +21,18 @@ void Stage::loadStage(vector<vector<stage_data>> &data,int Stage_Number)
     }
 }
 
-void Stage::update() {
-
-    if (timer % 2 == 0)
-        player.handleInput();
-
-    if (timer % 3 == 0 && !enemies.empty())
-        for (auto& e : enemies) e.move();
-
-    
-    timer++;
-}
 
 void Stage::draw() {
     clearScreen();
-    moveBullet(bullets, enemies, player);
-    for (auto& e : enemies) e.draw();
-    drawUser(player.x, player.y);
+    if (timer % 2 == 0)
+        player.handleInput();  // 유저 입력 처리
+    if (timer % 3 == 0 && !enemies.empty())
+        for (auto& e : enemies) e.move();
+    
+     // 총알 이동 및 충돌 처리
+    for (auto& e : enemies) e.draw(); 
+    moveBullet(bullets, enemies, player);    // 적 그리기
+    drawUser(player.x, player.y);        // 유저 그리기
+    timer++;
     printScreen();
 }

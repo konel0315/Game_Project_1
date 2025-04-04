@@ -15,8 +15,8 @@ void Enemy::move()
             {
             case 1: dx = 1; break;   // 오른쪽
             case -1: dx = -1; break;  // 왼쪽
-            case -2: dy = -1; break;  // 위로
-            case +2: dy = +1; break;  // 위로
+            case +2: dy = -1; break;  // 위로
+            case -2: dy = +1; break;  // 아래로
             case 0: default: break;  // 제자리
             }
         }
@@ -44,7 +44,7 @@ void Enemy::move()
 
     if (moveCount % 4 == 0) 
     {
-        shoot();
+       shoot();
     }
     moveCount++;  // 호출 횟수 증가
 

@@ -16,7 +16,6 @@ public:
     Stage(User& player, vector<Bullet>& bullets);
 
     void loadStage(vector<vector<stage_data>> &data,int Stage_Number); // 적 배치
-    void update();     // 입력, 움직임 처리
     void draw();       // 그리기
 };
 

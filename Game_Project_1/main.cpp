@@ -14,7 +14,6 @@ int main() {
     stage->loadStage(Every_Stage,1);
     while (enemies.size()!=0) {
         gotoxy(0, 0);
-        stage->update();
         stage->draw();
         
         this_thread::sleep_for(chrono::milliseconds(50));

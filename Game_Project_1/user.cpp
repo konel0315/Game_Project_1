@@ -1,6 +1,8 @@
 #include "User.h"
 #include <conio.h>  // _kbhit(), _getch() 사용을 위한 헤더
 #include "Screen.h"
+#include <iostream>
+
 
 extern vector<Bullet> InGameBullet;  // 전역 총알 벡터
 
@@ -19,7 +21,10 @@ void User::move(int dx, int dy) {
 
 
 void User::shoot() {
-    InGameBullet.push_back(Bullet(x, y - 1, 0));  // 유저가 총알 발사 (위쪽으로)
+    //cout << "총알 추가 전, 현재 총알 개수: " << InGameBullet.size() << endl;
+    InGameBullet.push_back(Bullet(x, y - 2, 0));
+    //cout << "총알 추가 후, 현재 총알 개수: " << InGameBullet.size() << endl;
+    //cin.get();  // 멈춰서 확인
 }
 
 void User::takeDamage(int damage) {

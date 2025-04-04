@@ -9,7 +9,7 @@ vector<Bullet> InGameBullet;
 
 void moveBullet(vector<Bullet>& bullets, vector<Enemy>& enemies, User& player) 
 {
- 
+
     // 1. 이전 위치 지우기
     for (auto& b : bullets) 
     {
@@ -32,16 +32,18 @@ void moveBullet(vector<Bullet>& bullets, vector<Enemy>& enemies, User& player)
         if (y < 0 || y >= HEIGHT) continue;
 
         // 3. 유저 총알이 적과 충돌
-        if (b.owner == 0 && screen[y][x] == 2) 
+        if (b.owner == 0&&screen[y][x] == 2) // 유저 총알이면
         {
-            for (int i = 0; i < enemies.size(); i++) 
+            for (int i = 0; i < enemies.size(); i++)
             {
-                if ((enemies[i].x == x && enemies[i].y == y) || (enemies[i].x == x && enemies[i].y - 1 == y)) 
+                if (enemies[i].x == x && enemies[i].y == y)  // screen 체크 대신 직접 위치 비교
                 {
                     enemies[i].takeDamage(1);
-                    if (enemies[i].isDead())
+                    if (enemies[i].isDead()) {
                         enemies.erase(enemies.begin() + i);
-                    break;
+                        i--; // 인덱스 조정 (erase 후에도 for문이 정상 동작하도록)
+                    }
+                    break; // 한 적과 충돌하면 더 확인할 필요 없음
                 }
             }
             continue; // 충돌했으니 저장 X
@@ -50,12 +52,16 @@ void moveBullet(vector<Bullet>& bullets, vector<Enemy>& enemies, User& player)
         // 4. 적 총알이 유저와 충돌
         if (b.owner == 1)
         {
-            if ((player.x == x && player.y == y - 1) || (player.x == x - 1 && player.y == y) || (player.x == x + 1 && player.y == y)) {
-
-                player.takeDamage(1); // 네가 만들었으면 이거 쓰고
+            if ((player.x == x && player.y == y) || // 플레이어가 총알과 정확히 같은 위치
+                (player.x == x - 1 && player.y == y) || // 왼쪽
+                (player.x == x + 1 && player.y == y) || // 오른쪽
+                (player.x == x && player.y == y - 1)) // 위쪽
+            {
+                player.takeDamage(1); // 플레이어 피해
                 continue;
             }
         }
+
 
         // 5. 총알끼리 충돌
         // 총알끼리 충돌 (교차 충돌 포함)
