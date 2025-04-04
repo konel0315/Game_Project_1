@@ -3,6 +3,7 @@
 #include <algorithm>  // gotoxy를 사용하기 위해 필요
 #include "Screen.h"
 
+
 using namespace std;
 
 int screen[HEIGHT][WIDTH];  // 화면을 int 배열로 정의
@@ -30,18 +31,22 @@ void drawUser(int x, int y) {
     screen[y ][x + 1] = 1;
 }
 
-void drawEnemy(int i) {
-    screen[enemies[i].y][enemies[i].x - 1] = 2;  // 적 위치 '●'
-    screen[enemies[i].y][enemies[i].x] = 2;
-    screen[enemies[i].y][enemies[i].x + 1] = 2;
-}
-
 void drawChat() { // 디버그용
     //int I = enemies.size(); // 예제: 현재 남아있는 적 수 출력
-    //cout << "Enemies left: " << I << endl;
+    //cout << "User life: " <<Player<< endl;
 }
 
 void printScreen() {
+
+    static bool initialized = false;
+    if (!initialized) {
+        CONSOLE_CURSOR_INFO cursorInfo;
+        cursorInfo.bVisible = FALSE;
+        cursorInfo.dwSize = 1;
+        SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &cursorInfo);
+        initialized = true;
+    }
+
     gotoxy(0, 0);  // 화면을 지우지 않고 (cls 없이) 첫 줄에서 다시 출력
     drawChat();
 
@@ -51,9 +56,10 @@ void printScreen() {
             switch (screen[i][j]) {
             case 0: cout << "□"; break;  // 빈칸
             case 1: cout << "■"; break;  // 사용자
-            case 2: cout << "●"; break;  // 적
+            case 2: cout << "●"; break;  // 적 타격 부위
             case 3: cout << "▲"; break;  // 사용자 총알
             case 4: cout << "▼"; break;  // 적 총알
+            case 5: cout << "◎"; break; //적 비 타격 부위
             default: cout << " "; break;
             }
         }

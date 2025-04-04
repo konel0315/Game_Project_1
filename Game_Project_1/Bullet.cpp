@@ -1,78 +1,90 @@
 #include <iostream>
-#include <vector>
-#include "Bullet.h"
 #include "Screen.h"
 #include "Enemy.h"
+#include "User.h"  // 유저 데미지 처리를 위한 헤더
 
 using namespace std;
 
 vector<Bullet> InGameBullet;
 
-void moveBullet(vector<Bullet>& InGameBullet, vector<Enemy>& enemies)
+void moveBullet(vector<Bullet>& bullets, vector<Enemy>& enemies, User& player) 
 {
-    for (int i = 0; i < InGameBullet.size(); i++)
+ 
+    // 1. 이전 위치 지우기
+    for (auto& b : bullets) 
     {
-        int prevX = InGameBullet[i].pos.x;
-        int prevY = InGameBullet[i].pos.y;
+        int x = b.pos.x, y = b.pos.y;
+        if (x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT)
+            if (screen[y][x] == 3 || screen[y][x] == 4)
+                screen[y][x] = 0;
+    }
 
-        // 기존 위치 지우기
-        if (prevY >= 0 && prevY < HEIGHT && prevX >= 0 && prevX < WIDTH)
-        {
-            if (screen[prevY][prevX] == 3 || screen[prevY][prevX] == 4) {
-                screen[prevY][prevX] = 0;  // 총알이 지나간 자리를 0으로 변경
-            }
-        }
-
+    // 2. 충돌 체크 및 위치 이동
+    vector<Bullet> nextBullets;
+    for (auto& b : bullets) 
+    {
         // 총알 이동
-        if (InGameBullet[i].owner==0)
-        {
-            InGameBullet[i].pos.y -= 1;
-        }
-        else 
-        {
-            InGameBullet[i].pos.y += 1;
-        }
+        b.pos.y += (b.owner == 0) ? -1 : 1;
 
-        int newY = InGameBullet[i].pos.y;
-        int newX = InGameBullet[i].pos.x;
+        int x = b.pos.x, y = b.pos.y;
 
-        // 새 위치가 화면 안에 있으면 출력
-        if (newY >= 0 && newY < HEIGHT && newX >= 0 && newX < WIDTH)
+        // 화면 밖으로 나가면 삭제
+        if (y < 0 || y >= HEIGHT) continue;
+
+        // 3. 유저 총알이 적과 충돌
+        if (b.owner == 0 && screen[y][x] == 2) 
         {
-            if (screen[newY][newX] == 0) {
-                screen[newY][newX] = InGameBullet[i].owner == 0 ? 3 : 4;
-            }
-            else if (screen[newY][newX] == 2) {  // 적과 충돌했을 경우
-                for (int i = 0;i < enemies.size();i++ ) 
-                { // 증감 연산 제거
-                    if (enemies[i].x == newX && enemies[i].y == newY)
-                    {
-                        enemies[i].takeDamage(1);
-
-                        if (enemies[i].isDead()) {
-                            enemies.erase(enemies.begin() + i);
-                        }
-                        break;
-                    }
+            for (int i = 0; i < enemies.size(); i++) 
+            {
+                if ((enemies[i].x == x && enemies[i].y == y) || (enemies[i].x == x && enemies[i].y - 1 == y)) 
+                {
+                    enemies[i].takeDamage(1);
+                    if (enemies[i].isDead())
+                        enemies.erase(enemies.begin() + i);
+                    break;
                 }
-
-               InGameBullet.erase(InGameBullet.begin() + i);
             }
-            else {
-                InGameBullet.erase(InGameBullet.begin() + i);
+            continue; // 충돌했으니 저장 X
+        }
+
+        // 4. 적 총알이 유저와 충돌
+        if (b.owner == 1)
+        {
+            if ((player.x == x && player.y == y - 1) || (player.x == x - 1 && player.y == y) || (player.x == x + 1 && player.y == y)) {
+
+                player.takeDamage(1); // 네가 만들었으면 이거 쓰고
+                continue;
             }
         }
+
+        // 5. 총알끼리 충돌
+        // 총알끼리 충돌 (교차 충돌 포함)
+        bool collided = false;
+        for (auto it = nextBullets.begin(); it != nextBullets.end(); ++it) {
+            if (
+                (it->pos.x == x && it->pos.y == y && it->owner != b.owner) ||  // 같은 위치
+                (it->pos.x == b.pos.x && it->pos.y == b.pos.y - 1 && b.owner == 0 && it->owner == 1) || // 위에서 내려온 적 총알과 교차
+                (it->pos.x == b.pos.x && it->pos.y == b.pos.y + 1 && b.owner == 1 && it->owner == 0)    // 아래에서 올라온 아군 총알과 교차
+                ) {
+                nextBullets.erase(it);
+                collided = true;
+                break;
+            }
+        }
+
+        if (collided) continue;
+
+        // 남은 총알만 유지
+        nextBullets.push_back(b);
     }
 
-    // 화면 밖으로 나간 총알 삭제
-    for (auto it = InGameBullet.begin(); it != InGameBullet.end(); ) {
-        if (it->pos.y < 0 || it->pos.y >= HEIGHT) {
-            it = InGameBullet.erase(it);  // 삭제 후 반환된 위치를 다시 받음
-        }
-        else {
-            ++it;  // 삭제되지 않았다면 다음 요소로 이동
-        }
+    bullets = nextBullets;
+
+    // 6. 남은 총알 다시 그리기
+    for (auto& b : bullets) 
+    {
+        int x = b.pos.x, y = b.pos.y;
+        if (x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT)
+            screen[y][x] = (b.owner == 0) ? 3 : 4;
     }
-
-
 }

@@ -23,9 +23,5 @@ public:
 		this->pos.y = y;
 		this->owner = owner;//0Àº user 1Àº enemy
 	};
-	
-	vector<int> CreateBullet(int x, int y);
 
 };
-
-

@@ -1,6 +1,4 @@
 #include "User.h"
-#include "Bullet.h"
-#include <vector>
 #include <conio.h>  // _kbhit(), _getch() 사용을 위한 헤더
 #include "Screen.h"
 
@@ -28,6 +26,7 @@ void User::takeDamage(int damage) {
     health -= damage;
     if (health <= 0) {
         health = 0;
+        exit(0);
         // 유저가 사망하면 게임 오버 처리 가능
     }
 }
