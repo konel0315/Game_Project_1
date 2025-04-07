@@ -6,22 +6,27 @@ using namespace std;
 
 class Bullet 
 {
-	float speed=0;
-	int damage=0;
-	string type;//총알 타입
-	
 public:
 	int owner;
 	struct position {
 		int x;
 		int y;
 	};
+	string type;
+	int dx = 0;
+	int dy = 0;
 	position pos;
-	Bullet(int x, int y,int owner) 
+	Bullet(int x, int y,int owner,string type = "basic")
 	{
 		this->pos.x = x;
 		this->pos.y = y;
 		this->owner = owner;//0은 user 1은 enemy
+		this->type = type;
+		if (type == "mirror") 
+		{
+			//dx = 1;
+			dy = (owner == 0) ? -1 : 1;
+		}
 	};
 
 };

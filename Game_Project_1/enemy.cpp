@@ -44,7 +44,7 @@ void Enemy::move()
 
     if (moveCount % 4 == 0) 
     {
-       shoot();
+       shoot(Bulletype);
     }
     moveCount++;  // 호출 횟수 증가
 
@@ -74,7 +74,7 @@ void Enemy::draw() {
     screen[yBottom][xBottom] = 2;
     
 }
-void Enemy::shoot(/*Bullet bulletType*/)
+void Enemy::shoot(string bulletType)
 {
-    InGameBullet.push_back(Bullet(x, y +1, 1));
+    InGameBullet.push_back(Bullet(x, y +1, 1,bulletType));
 }

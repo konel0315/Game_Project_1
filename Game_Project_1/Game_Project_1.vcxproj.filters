@@ -36,6 +36,15 @@
     <ClCompile Include="Stage_data.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Boss.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Arm.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="BossData.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Enemy.h">
@@ -54,6 +63,15 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Stage_data.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Arm.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="BossData.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

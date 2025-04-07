@@ -10,17 +10,17 @@ public:
     vector<int> directionArray;
     int dirIndex = 0;
     int moveCount = 0;
+    string Bulletype;
+    Enemy(int startX, int startY, vector<int> directions, int health,string type)
+        : x(startX), y(startY), directionArray(directions), previousX(startX), health(health), previousY(startY),Bulletype(type){}
+    virtual ~Enemy() {}
+    virtual void move();
 
-    Enemy(int startX, int startY, vector<int> directions, int health)
-        : x(startX), y(startY), directionArray(directions), previousX(startX), health(health), previousY(startY){}
-
-    void move();
-
-    void draw();
+    virtual void draw();
     // 생성자
 
     // 총알 발사 함수
-    void shoot(/*Bullet bulletType*/);
+    void shoot(string bulletType);
     // 체력 감소 함수
     void takeDamage(int damage) {
         health -= damage;

@@ -16,10 +16,40 @@ void Stage::loadStage(vector<vector<stage_data>> &data,int Stage_Number)
             data[index ][i].enemy_x,
             data[index ][i].enemy_y,
             data[index][i].pattern,
-            data[index][i].enemy_health
+            data[index][i].enemy_health,
+            data[index][i].bulletype
         ));
     }
 }
+
+vector<Arm::Position> convertToAbsolute(int baseX, int baseY, const vector<RelativePos>& rels) {
+    vector<Arm::Position> result;
+    for (int i = 0; i < rels.size(); i++) {
+        result.push_back({ baseX + rels[i].dx, baseY + rels[i].dy });
+    }
+    return result;
+}
+
+
+void Stage::loadBoss(const BossData& data) {
+    int cx = data.startX;
+    int cy = data.startY;
+
+    boss = Boss(cx, cy, data.directions, data.BosHealth, data.type);
+    boss.leftArm = Arm(
+        convertToAbsolute(cx, cy, data.leftArm_hitRel),
+        convertToAbsolute(cx, cy, data.leftArm_nonHitRel),data.LeftHealth
+    );
+    boss.rightArm = Arm(
+        convertToAbsolute(cx, cy, data.rightArm_hitRel),
+        convertToAbsolute(cx, cy, data.rightArm_nonHitRel), data.RightHealth
+    );
+    boss.shellParts = convertToAbsolute(cx, cy, data.shellRel);
+    boss.bodyParts = convertToAbsolute(cx, cy, data.bodyRel);
+    hasBoss = true;
+}
+
+
 
 
 void Stage::draw() {
@@ -31,7 +61,11 @@ void Stage::draw() {
     
      // 총알 이동 및 충돌 처리
     for (auto& e : enemies) e.draw(); 
-    moveBullet(bullets, enemies, player);    // 적 그리기
+    if (hasBoss) {
+        /*boss.move();*/  // 혹시 나중에 움직임이 들어가면 대비
+        boss.draw();
+    }
+    moveBullet(bullets, enemies, player, *this);    // 적 그리기
     drawUser(player.x, player.y);        // 유저 그리기
     timer++;
     printScreen();
