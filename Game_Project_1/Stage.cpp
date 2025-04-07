@@ -62,11 +62,15 @@ void Stage::draw() {
      // 총알 이동 및 충돌 처리
     for (auto& e : enemies) e.draw(); 
     if (hasBoss) {
-        /*boss.move();*/  // 혹시 나중에 움직임이 들어가면 대비
+        if (timer % 3 == 0)
+        {
+            boss.move();  // 혹시 나중에 움직임이 들어가면 대비
+        }
         boss.draw();
     }
     moveBullet(bullets, enemies, player, *this);    // 적 그리기
     drawUser(player.x, player.y);        // 유저 그리기
     timer++;
+    mirrorDirectionToggle = !mirrorDirectionToggle;
     printScreen();
 }

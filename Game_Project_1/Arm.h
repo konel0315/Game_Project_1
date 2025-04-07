@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include "Bullet.h"
 using namespace std;
 
 class Arm {
@@ -9,6 +10,7 @@ public:
         int y;
     };
     int health;
+    string bulletType;
     vector<Position> hitParts;      // 피격 가능한 부분
     vector<Position> nonHitParts;   // 피격 불가능한 장식 등
 
@@ -22,4 +24,6 @@ public:
         return health <= 0;
     }
     void EraseArm();
+    void move();
+    void shoot(string bulletType);
 };

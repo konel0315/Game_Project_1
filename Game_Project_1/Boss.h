@@ -17,7 +17,7 @@ public:
     }
     void Shell_Destroyed_check();
     // Boss 전용 움직임
-     void move() override{}
+    void move() override;
 
     // Boss 전용 그리기
      void draw( ) override;

@@ -7,7 +7,6 @@
 using namespace std;
 
 vector<Bullet> InGameBullet;
-static bool mirrorDirectionToggle = false;
 void moveBullet(vector<Bullet>& bullets, vector<Enemy>& enemies, User& player, Stage& stage)
 {
     // 1. 이전 위치 지우기
@@ -24,8 +23,8 @@ void moveBullet(vector<Bullet>& bullets, vector<Enemy>& enemies, User& player, S
     {
         if (b.type == "mirror" && b.dx == 0)
         {
-            b.dx = mirrorDirectionToggle ? 1 : -1;
-            mirrorDirectionToggle = !mirrorDirectionToggle;
+            b.dx = stage.mirrorDirectionToggle ? 1 : -1;
+
         }
         int x = b.pos.x;
         int y = b.pos.y;
@@ -36,8 +35,8 @@ void moveBullet(vector<Bullet>& bullets, vector<Enemy>& enemies, User& player, S
         }
         else if (b.type == "mirror") {
             x += b.dx;
-            y += b.dy;
-
+            y += b.dy + rand() % 3;  // 0, 1, 2 사이의 랜덤값을 y에 더함
+        
             // 벽 반사
             if (x <= 0 || x >= WIDTH - 1)
                 b.dx *= -1;

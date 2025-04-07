@@ -19,3 +19,12 @@ void Arm::draw()
         screen[nonHitParts[i].y][nonHitParts[i].x] = 1;
     }
 }
+void Arm :: move()
+{
+    shoot("mirror");
+}
+void Arm::shoot(string bulletType)
+{
+    InGameBullet.push_back(Bullet(nonHitParts[6].x, nonHitParts[6].y + 1, 1, bulletType));
+
+}

@@ -15,6 +15,7 @@ private:
 
 public:
     bool hasBoss = false;
+    bool mirrorDirectionToggle = false;
     Boss boss = Boss(0, 0, {}, 0, "");
     Stage(User& player, vector<Bullet>& bullets);
 

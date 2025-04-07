@@ -1,6 +1,11 @@
 #include "Boss.h"
 #include "Screen.h"
 
+void Boss::move() 
+{
+    leftArm.move();
+    rightArm.move();
+}
 void Boss::draw() {
     // øﬁ∆» (≈∏∞› ∞°¥… ∫Œ¿ß)
     for (int i = 0; i < leftArm.hitParts.size(); ++i) {
