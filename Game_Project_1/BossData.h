@@ -18,14 +18,14 @@ struct BossData {
     int LeftHealth;
     string type;
 
-    vector<RelativePos> leftArm_hitRel;
-    vector<RelativePos> leftArm_nonHitRel;
+    vector<vector<RelativePos>> leftArm_hitRel;
+    vector<vector<RelativePos>> leftArm_nonHitRel;
 
-    vector<RelativePos> rightArm_hitRel;
-    vector<RelativePos> rightArm_nonHitRel;
+    vector<vector<RelativePos>> rightArm_hitRel;
+    vector<vector<RelativePos>>rightArm_nonHitRel;
 
-    vector<RelativePos> shellRel;
-    vector<RelativePos> bodyRel;
+    vector<vector<RelativePos>> shellRel;
+    vector<vector<RelativePos>> bodyRel;
 };
 
 

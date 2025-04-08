@@ -37,15 +37,27 @@ void User::takeDamage(int damage) {
 }
 
 void User::handleInput() {
-    if (_kbhit()) {  // 키 입력이 있는지 확인
-        char key = _getch();  // 키 입력 받기
+    if (_kbhit()) {
+        char key = _getch();
 
         switch (key) {
-        case 'w': move(0, -1); break;  // 위로 이동
-        case 's': move(0, 1); break;   // 아래로 이동
-        case 'a': move(-1, 0); break;  // 왼쪽 이동
-        case 'd': move(1, 0); break;   // 오른쪽 이동
-        case ' ': shoot(); break;      // 스페이스바 입력 시 총알 발사
+        case 'w': move(0, -1); break;
+        case 's': move(0, 1); break;
+        case 'a': move(-1, 0); break;
+        case 'd': move(1, 0); break;
+
+        case ' ':
+            if (shootCooldown == 0) {
+                shoot();
+                shootCooldown = maxCooldown;
+            }
+            break;
         }
     }
+
+    // 쿨타임 감소
+    if (shootCooldown > 0) {
+        shootCooldown--;
+    }
 }
+

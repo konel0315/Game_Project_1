@@ -43,7 +43,27 @@ void moveBullet(vector<Bullet>& bullets, vector<Enemy>& enemies, User& player, S
            /* if (y <= 0 || y >= HEIGHT - 1)
                 b.dy *= -1;*/
         }
+        else if (b.type == "boss")
+        {
+            x += b.dx;
+            y += b.dy;
 
+            // 벽 반사 처리
+            if (x <= 0 || x >= WIDTH - 1)
+            {
+                b.dx *= -1;
+                b.reflectCount++;
+            }
+            if (y <= 0 || y >= HEIGHT - 1)
+            {
+                b.dy *= -1;
+                b.reflectCount++;
+            }
+
+            // 반사 4번 이상이면 사라짐
+            if (b.reflectCount >= 4)
+                continue;
+        }
         b.pos.x = x;
         b.pos.y = y;
 
@@ -56,12 +76,12 @@ void moveBullet(vector<Bullet>& bullets, vector<Enemy>& enemies, User& player, S
             if (enemies.empty()) {
                 if (screen[y][x] == 2) {  // 보스도 2로 변경
                     // 왼팔 타격 체크
-                    for (int i = 0; i < stage.boss.leftArm.hitParts.size(); i++) {
-                        if (stage.boss.leftArm.hitParts[i].x == x && stage.boss.leftArm.hitParts[i].y == y) {
+                    for (int i = 0; i < stage.boss.leftArm.getCurrentHitParts().size(); i++) {
+                        if (stage.boss.leftArm.getCurrentHitParts()[i].x == x && stage.boss.leftArm.getCurrentHitParts()[i].y == y) {
                             stage.boss.leftArm.takeDamage(1);
                             if (stage.boss.leftArm.isDead())
                             {
-                                stage.boss.leftArm.EraseArm();
+                                //stage.boss.leftArm.EraseArm();
                                 stage.boss.Shell_Destroyed_check();
                             }
                             break;
@@ -69,12 +89,12 @@ void moveBullet(vector<Bullet>& bullets, vector<Enemy>& enemies, User& player, S
                     }
 
                     // 오른팔 타격 체크
-                    for (int i = 0; i < stage.boss.rightArm.hitParts.size(); i++) {
-                        if (stage.boss.rightArm.hitParts[i].x == x && stage.boss.rightArm.hitParts[i].y == y) {
+                    for (int i = 0; i < stage.boss.rightArm.getCurrentHitParts().size(); i++) {
+                        if (stage.boss.rightArm.getCurrentHitParts()[i].x == x && stage.boss.rightArm.getCurrentHitParts()[i].y == y) {
                             stage.boss.rightArm.takeDamage(1);
-                            if(stage.boss.rightArm.isDead())
+                            if (stage.boss.rightArm.isDead())
                             {
-                                stage.boss.rightArm.EraseArm();
+                                //stage.boss.rightArm.EraseArm();
                                 stage.boss.Shell_Destroyed_check();
                             }
                             break;
@@ -82,11 +102,15 @@ void moveBullet(vector<Bullet>& bullets, vector<Enemy>& enemies, User& player, S
                     }
 
                     // 본체 타격 (팔이 모두 파괴된 경우에만)
-                    if (stage.boss.leftArm.hitParts.empty() && stage.boss.rightArm.hitParts.empty()) {
-                        stage.boss.shellDestroyed = true;
-                        for (int i = 0; i < stage.boss.bodyParts.size(); i++) {
-                            if (stage.boss.bodyParts[i].x == x && stage.boss.bodyParts[i].y == y) {
+                    if (stage.boss.leftArm.isDead() && stage.boss.rightArm.isDead()) {
+                        for (const auto& pos : stage.boss.getCurrentHitParts())
+                        {
+                            if (pos.x == x && pos.y == y)
+                            {
                                 stage.boss.takeDamage(1);
+                                if (stage.boss.isDead()) {
+                                    stage.hasBoss = false;
+                                }
                                 break;
                             }
                         }
@@ -95,7 +119,8 @@ void moveBullet(vector<Bullet>& bullets, vector<Enemy>& enemies, User& player, S
                 }
             }
             // === 유저 총알이 일반 적에게 충돌 ===
-            else if (screen[y][x] == 2) {
+            else if (screen[y][x] == 2)
+            {
                 for (int i = 0; i < enemies.size(); i++) {
                     if (enemies[i].x == x && enemies[i].y == y) {
                         enemies[i].takeDamage(1);
@@ -109,6 +134,11 @@ void moveBullet(vector<Bullet>& bullets, vector<Enemy>& enemies, User& player, S
                 continue;
             }
         }
+            else if (screen[y][x] == 5)
+            {
+                continue;
+            }
+        
 
 
 

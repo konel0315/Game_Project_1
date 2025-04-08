@@ -1,30 +1,28 @@
 #include "Arm.h"
 #include "Screen.h"
 
-Arm::Arm(vector<Position> hit, vector<Position> nonHit,int health)
-    : hitParts(hit), nonHitParts(nonHit),health(health){
-}
-void Arm::EraseArm()
-{
-    hitParts.clear();
-    nonHitParts.clear();
+Arm::Arm(vector<vector<Position>> hitFrames, vector<vector<Position>> nonHitFrames, int health)
+    : hitAnimFrames(hitFrames), nonHitAnimFrames(nonHitFrames), health(health), currentFrame(0) {
 }
 
-void Arm::draw()
-{
-    for (int i = 0; i < hitParts.size(); ++i) {
-        screen[hitParts[i].y][hitParts[i].x] = 1;
+
+void Arm::draw() {
+    for (const auto& pos : hitAnimFrames[currentFrame]) {
+        screen[pos.y][pos.x] = 1;
     }
-    for (int i = 0; i < nonHitParts.size(); ++i) {
-        screen[nonHitParts[i].y][nonHitParts[i].x] = 1;
+    for (const auto& pos : nonHitAnimFrames[currentFrame]) {
+        screen[pos.y][pos.x] = 1;
     }
 }
-void Arm :: move()
-{
+
+void Arm::move() {
+    currentFrame = (currentFrame + 1) % hitAnimFrames.size();
     shoot("mirror");
 }
-void Arm::shoot(string bulletType)
-{
-    InGameBullet.push_back(Bullet(nonHitParts[6].x, nonHitParts[6].y + 1, 1, bulletType));
 
+void Arm::shoot(string bulletType) {
+    const auto& frame = nonHitAnimFrames[currentFrame];
+    if (frame.size() > 6) {
+        InGameBullet.push_back(Bullet(frame[6].x, frame[6].y + 1, 1, bulletType));
+    }
 }

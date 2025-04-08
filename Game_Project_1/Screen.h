@@ -13,7 +13,7 @@ const int HEIGHT = 30;
 extern int screen[HEIGHT][WIDTH];
 extern vector<Bullet> InGameBullet;
 extern vector<Enemy> enemies;  // 적 리스트
-
+extern int clear;
 
 void clearScreen();
 void drawUser(int x, int y);

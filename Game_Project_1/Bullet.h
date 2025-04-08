@@ -3,8 +3,7 @@
 #include <vector>
 using namespace std;
 
-
-class Bullet 
+class Bullet
 {
 public:
 	int owner;
@@ -15,18 +14,19 @@ public:
 	string type;
 	int dx = 0;
 	int dy = 0;
+	int reflectCount = 0; // 
 	position pos;
-	Bullet(int x, int y,int owner,string type = "basic")
+
+	Bullet(int x, int y, int owner, string type = "basic")
 	{
 		this->pos.x = x;
 		this->pos.y = y;
-		this->owner = owner;//0은 user 1은 enemy
+		this->owner = owner; // 0은 user, 1은 enemy
 		this->type = type;
-		if (type == "mirror") 
+
+		if (type == "mirror")
 		{
-			//dx = 1;
 			dy = (owner == 0) ? -1 : 1;
 		}
-	};
-
+	}
 };
