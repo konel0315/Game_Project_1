@@ -66,7 +66,20 @@ void Stage::loadBoss(const BossData& data) {
 
 void Stage::draw() {
     clearScreen();
-        player.handleInput();  // 유저 입력 처리
+          // 유저 입력 처리
+        for (auto& e : enemies) {
+            if (e.hitFlashTimer > 0) e.hitFlashTimer--;
+        }
+
+        if (hasBoss) {
+            boss.reduceHitFlash(); // 내부에서 팔/본체 등도 줄여줘야 함
+        }
+
+        if (player.hitFlashTimer > 0)
+        {
+            player.hitFlashTimer--;
+        }
+        player.handleInput();
     if (timer % 3 == 0 && !enemies.empty())
         for (auto& e : enemies) e.move();
     
@@ -80,7 +93,7 @@ void Stage::draw() {
         boss.draw();
     }
     moveBullet(bullets, enemies, player, *this);    // 적 그리기
-    drawUser(player.x, player.y);        // 유저 그리기
+    drawUser(player.x, player.y, player.hitFlashTimer);        // 유저 그리기
     timer++;
     mirrorDirectionToggle = !mirrorDirectionToggle;
     printScreen();

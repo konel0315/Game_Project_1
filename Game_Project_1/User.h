@@ -8,6 +8,8 @@ public:
     int health;    // 체력 정보
     int shootCooldown = 0;        // 쿨타임 카운터
     const int maxCooldown = 2;
+    int hitFlashTimer = 0;
+    bool isHit = false;
     // 생성자
     User(int x, int y, int health)
         : x(x), y(y), health(health) {

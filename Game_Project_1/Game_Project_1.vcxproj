@@ -131,7 +131,7 @@
     <ClCompile Include="Boss.cpp" />
     <ClCompile Include="BossData.cpp" />
     <ClCompile Include="Bullet.cpp" />
-    <ClCompile Include="enemy.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Screen.cpp" />
     <ClCompile Include="Stage.cpp" />

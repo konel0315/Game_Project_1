@@ -29,9 +29,9 @@ void User::shoot() {
 
 void User::takeDamage(int damage) {
     health -= damage;
+    hitFlashTimer = 2;
     if (health <= 0) {
         health = 0;
-        exit(0);
         // 유저가 사망하면 게임 오버 처리 가능
     }
 }

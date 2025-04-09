@@ -1,11 +1,11 @@
 #include <iostream>
-#include "Screen.h"
 #include "Enemy.h"
 #include "User.h"  // 유저 데미지 처리를 위한 헤더
 #include "Stage.h"
+#include "Screen.h"
 
 using namespace std;
-
+int frame = 0;//총알 피격시 색 바꾸는 용
 vector<Bullet> InGameBullet;
 void moveBullet(vector<Bullet>& bullets, vector<Enemy>& enemies, User& player, Stage& stage)
 {
@@ -102,19 +102,26 @@ void moveBullet(vector<Bullet>& bullets, vector<Enemy>& enemies, User& player, S
                     }
 
                     // 본체 타격 (팔이 모두 파괴된 경우에만)
-                    if (stage.boss.leftArm.isDead() && stage.boss.rightArm.isDead()) {
-                        for (const auto& pos : stage.boss.getCurrentHitParts())
+                    if(stage.boss.leftArm.isDead() && stage.boss.rightArm.isDead()) 
+                    {
+                        for (const auto& pos : stage.boss.getCurrentHitParts()) 
                         {
-                            if (pos.x == x && pos.y == y)
+                            // 중심 좌표는 제외하고, 실제 피격 가능한 부분만
+                            if (!(pos.x == stage.boss.x && pos.y == stage.boss.y)) 
                             {
-                                stage.boss.takeDamage(1);
-                                if (stage.boss.isDead()) {
-                                    stage.hasBoss = false;
+                                if (pos.x == x && pos.y == y) 
+                                {
+                                    stage.boss.takeDamage(1);
+                                    if (stage.boss.isDead()) 
+                                    {
+                                        stage.hasBoss = false;
+                                    }
+                                    break;
                                 }
-                                break;
                             }
                         }
                     }
+
                     continue;
                 }
             }
@@ -134,7 +141,7 @@ void moveBullet(vector<Bullet>& bullets, vector<Enemy>& enemies, User& player, S
                 continue;
             }
         }
-            else if (screen[y][x] == 5)
+            if (screen[y][x] == 5)
             {
                 continue;
             }
@@ -184,3 +191,4 @@ void moveBullet(vector<Bullet>& bullets, vector<Enemy>& enemies, User& player, S
             screen[y][x] = (b.owner == 0) ? 3 : 4;
     }
 }
+

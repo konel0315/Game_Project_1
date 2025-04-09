@@ -9,7 +9,6 @@ public:
     Arm leftArm;
     Arm rightArm;
     int currentFrame=0;
-    
     vector<vector<Arm::Position>> shellParts;
     vector<vector<Arm::Position>> bodyParts;
     bool shellDestroyed = false;
@@ -23,7 +22,8 @@ public:
     
     // Boss 전용 그리기
      void draw( ) override;
-     const vector<Arm::Position>& getCurrentHitParts() const {
+     const vector<Arm::Position>& getCurrentHitParts() const 
+     {
          return bodyParts[currentFrame];
      }
      void nextFrame() {
@@ -34,5 +34,6 @@ public:
      bool isDead() const {
          return health <= 0;
      }
-
+     void reduceHitFlash();
+     
 };

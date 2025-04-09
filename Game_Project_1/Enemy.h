@@ -10,6 +10,8 @@ public:
     vector<int> directionArray;
     int dirIndex = 0;
     int moveCount = 0;
+    int hitFlashTimer = 0;
+    bool isHit = false;
     string Bulletype;
     Enemy(int startX, int startY, vector<int> directions, int health,string type)
         : x(startX), y(startY), directionArray(directions), previousX(startX), health(health), previousY(startY),Bulletype(type){}
@@ -24,6 +26,7 @@ public:
     // 체력 감소 함수
     void takeDamage(int damage) {
         health -= damage;
+        hitFlashTimer = 2;
     }
 
     // 적이 죽었는지 확인하는 함수

@@ -9,7 +9,8 @@ public:
         int x;
         int y;
     };
-
+    int hitFlashTimer = 0;
+    bool isHit = false;
     int health;
     string bulletType;
 
@@ -23,6 +24,7 @@ public:
 
     void takeDamage(int damage) {
         health -= damage;
+        hitFlashTimer = 2;
     }
     void draw();
     void move();

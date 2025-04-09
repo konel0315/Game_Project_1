@@ -71,6 +71,10 @@ void Enemy::draw() {
 
     // 현재 프레임 기준으로 그리기
     screen[yTop][xTop] = 5;
+    int color = (hitFlashTimer > 0) ? RED : WHITE;
+    {
+        screenCollor[yBottom][xBottom] = color;
+    };
     screen[yBottom][xBottom] = 2;
     
 }

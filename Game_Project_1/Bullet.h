@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <vector>
+
 using namespace std;
 
 class Bullet
@@ -29,4 +30,5 @@ public:
 			dy = (owner == 0) ? -1 : 1;
 		}
 	}
+
 };

@@ -76,7 +76,9 @@ void Boss::draw() {
     if (!leftArm.isDead())
     {
         for (const auto& pos : leftArm.getCurrentHitParts()) {
+            int color = (leftArm.hitFlashTimer > 0) ? RED : WHITE;
             screen[pos.y][pos.x] = 2; // ●
+            screenCollor[pos.y][pos.x] = color;
         }
 
         // 왼팔 (타격 불가능 부위)
@@ -89,7 +91,9 @@ void Boss::draw() {
     if (!rightArm.isDead())
     {
         for (const auto& pos : rightArm.getCurrentHitParts()) {
+            int color = (rightArm.hitFlashTimer > 0) ? RED : WHITE;
             screen[pos.y][pos.x] = 2; // ●
+            screenCollor[pos.y][pos.x] = color;
         }
 
         // 오른팔 (타격 불가능 부위)
@@ -104,8 +108,11 @@ void Boss::draw() {
         {
             if (pos.x == this->x && pos.y == this->y) {
                 screen[pos.y][pos.x] = 5; // ◎ (중앙, 비피격)
+
             }
             else {
+                int color = (hitFlashTimer > 0) ? RED : WHITE;
+                screenCollor[pos.y][pos.x] = color;
                 screen[pos.y][pos.x] = 2; // ● (피격 가능)
             }
         }
@@ -135,4 +142,11 @@ void Boss::Shell_Destroyed_check()
     {
         this->shellDestroyed = true;
     }
+}
+void Boss::reduceHitFlash() {
+    if (hitFlashTimer > 0) hitFlashTimer--;
+    if (leftArm.hitFlashTimer > 0) leftArm.hitFlashTimer--;
+    if (rightArm.hitFlashTimer > 0) rightArm.hitFlashTimer--;
+
+    // 필요하다면 body/shell 별도로 줄이기
 }
