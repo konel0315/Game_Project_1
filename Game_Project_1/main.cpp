@@ -10,7 +10,8 @@
 int main() {
     system("mode con cols=100 lines=30");
 
-    while (true) {
+    while (true) 
+    {
         showStartScreen(); // 시작 화면 보여주기
 
         int stage_num = 1;
@@ -36,8 +37,9 @@ int main() {
             }
 
             stage_num++;
-            if (stage_num == Every_Stage.size() + 1) {
-                clear = 1;
+            if (stage_num == Every_Stage.size())//+1해야함 
+            {
+                          clear = 1;
             }
         }
 

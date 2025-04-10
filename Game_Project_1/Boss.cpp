@@ -34,7 +34,7 @@ void Boss::move()
 
     if (shellDestroyed && !directionArray.empty())
     {
-        if (moveCount % 10 == 0)
+        if (moveCount % 5 == 0)
         {
             shoot();
         }
@@ -83,6 +83,7 @@ void Boss::draw() {
 
         // 왼팔 (타격 불가능 부위)
         for (const auto& pos : leftArm.getCurrentNonHitParts()) {
+            screenCollor[pos.y][pos.x] = LIGHT_YELLOW;
             screen[pos.y][pos.x] = 5; // ◎
         }
     }
@@ -98,6 +99,7 @@ void Boss::draw() {
 
         // 오른팔 (타격 불가능 부위)
         for (const auto& pos : rightArm.getCurrentNonHitParts()) {
+            screenCollor[pos.y][pos.x] = LIGHT_YELLOW;
             screen[pos.y][pos.x] = 5; // ◎
         }
     }
@@ -131,6 +133,7 @@ void Boss::draw() {
     // 껍질 (양팔이 살아있을 때만 보임)
     if (!shellDestroyed) {
         for (const auto& pos : shellParts[0]) {
+            screenCollor[pos.y][pos.x] = YELLOW;
             screen[pos.y][pos.x] = 5; // ◎
         }
     }

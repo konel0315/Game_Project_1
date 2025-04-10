@@ -19,21 +19,21 @@ void gotoxy(int x, int y) {
 }
 
 void showStartScreen() {
-    clearScreen(); // 너가 만든 화면 초기화 함수
+    system("cls"); // 너가 만든 화면 초기화 함수
     gotoxy(30, 10); std::cout << " GALAGA: 콘솔 에디션 ";
     gotoxy(28, 12); std::cout << "아무 키나 눌러 게임 시작!";
     _getch();
 }
 
 void showGameOverScreen() {
-    clearScreen();
+    system("cls");
     gotoxy(35, 10); std::cout << " GAME OVER ";
     gotoxy(30, 12); std::cout << "다시 시작하려면 아무 키나 누르세요.";
     _getch();
 }
 
 void showClearScreen() {
-    clearScreen();
+    system("cls");
     gotoxy(35, 10); std::cout << "  게임 클리어! 축하합니다! ";
     gotoxy(28, 12); std::cout << "아무 키나 누르면 다시 시작합니다.";
     _getch();
